@@ -5,58 +5,56 @@ using static Library_project.DataAccess.Repositories.DataContext;
 
 namespace Library_project.Business.Services;
 
-public class AuthorService : IAuthorService
+internal class GenreService : IGenreService
 {
-    public void Create(string? name, string? surname)
+    public void Create(string? name)
     {
         if (string.IsNullOrEmpty(name))
             throw new NotFoundException("The value doesn't exist");
-        Author? author = Authors?.Find(a => a.Name == name);
-        if (author is not null)
+        Genre? genre = Genres?.Find(g => g.Name == name);
+        if (genre is not null)
             throw new AlreadyExistException("The Value already exists");
-        author.Surname = surname;
-        Authors?.Add(author);
+        Genres?.Add(genre);
     }
 
     public void Delete(int id)
     {
-        Author? author = Authors?.Find(a => a.Id == id);
-        if (author is null)
+        Genre? genre = Genres?.Find(g => g.Id == id);
+        if (genre is null)
             throw new NotFoundException("The value doesn't exist");
         //Check Books that depending on Author(s)
-        Authors?.Remove(author);
+        Genres?.Remove(genre);
     }
 
-    public List<Author> GetAll()
+    public List<Genre> GetAll()
     {
-        return Authors;
+        return Genres;
     }
 
-    public Author GetById(int id)
+    public Genre GetById(int id)
     {
-        Author? author = Authors?.Find(a => a.Id == id);
-        if (author is null)
+        Genre? genre = Genres?.Find(g => g.Id == id);
+        if (genre is null)
             throw new NotFoundException("The value doesn't exist");
-        return author;
+        return genre;
     }
 
-    public List<Author> SearchByName(string? search)
+    public List<Genre> SearchByName(string? search)
     {
         if (string.IsNullOrEmpty(search))
             throw new NullorEmptyException("The value is null or empty");
-        return Authors.FindAll(a => a.Name.Contains(search));
+        return Genres.FindAll(g => g.Name.Contains(search));
     }
 
-    public void Update(int id, string? name, string? surname)
+    public void Update(int id, string? name)
     {
-        if (Authors?.Find(a => a.Id == id) is null)
+        if (Genres?.Find(g => g.Id == id) is null)
             throw new NotFoundException("The value doesn't exist");
         if (string.IsNullOrEmpty(name))
             throw new NullorEmptyException("The value is null or empty");
-        Author? author = Authors?.Find(a => a.Name == name);
-        if (author is not null)
+        Genre? genre = Genres?.Find(g => g.Name == name);
+        if (genre is not null)
             throw new AlreadyExistException($"The object which involving the {name} is already exist");
-        author.Name = name;
-        author.Surname = surname;
+        genre.Name = name;
     }
 }
