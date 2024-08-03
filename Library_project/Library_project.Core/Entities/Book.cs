@@ -6,16 +6,16 @@ public class Book : IEntity<Guid>
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }
-    public List<int> AuthorId { get; set; }
-    public List<int> GenreId { get; set; }
+    public HashSet<int> AuthorIds { get; set; }
+    public HashSet<int> GenreIds { get; set; }
     public DateTime PublishTime { get; set; }
-    public int Count { get; }
-    public Book(string? name, int count, DateTime publishTime)
+    public int Count { get; set; }
+    public Book(string? name, DateTime publishTime, int count, HashSet<int> authorids, HashSet<int> genreids)
     {
         Id = Guid.NewGuid();
         Name = name;
-        AuthorId = new List<int>();
-        GenreId = new List<int>();
+        AuthorIds = authorids;
+        GenreIds = genreids;
         PublishTime = publishTime;
         Count = count;
     }

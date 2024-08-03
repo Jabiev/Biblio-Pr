@@ -11,10 +11,9 @@ public class AuthorService : IAuthorService
     {
         if (string.IsNullOrEmpty(name))
             throw new NotFoundException("The value doesn't exist");
-        Author? author = Authors?.Find(a => a.Name == name);
-        if (author is not null)
+        if (Authors?.Find(a => a.Name == name) is not null)
             throw new AlreadyExistException("The Value already exists");
-        author.Surname = surname;
+        Author author = new(name, surname);
         Authors?.Add(author);
     }
 
@@ -49,12 +48,12 @@ public class AuthorService : IAuthorService
 
     public void Update(int id, string? name, string? surname)
     {
-        if (Authors?.Find(a => a.Id == id) is null)
+        Author? author = Authors?.Find(a => a.Id == id);
+        if (author is null)
             throw new NotFoundException("The value doesn't exist");
         if (string.IsNullOrEmpty(name))
             throw new NullorEmptyException("The value is null or empty");
-        Author? author = Authors?.Find(a => a.Name == name);
-        if (author is not null)
+        if (Authors?.Find(a => a.Name == name) is not null)
             throw new AlreadyExistException($"The object which involving the {name} is already exist");
         author.Name = name;
         author.Surname = surname;

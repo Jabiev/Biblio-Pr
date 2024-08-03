@@ -5,15 +5,15 @@ using static Library_project.DataAccess.Repositories.DataContext;
 
 namespace Library_project.Business.Services;
 
-internal class GenreService : IGenreService
+public class GenreService : IGenreService
 {
     public void Create(string? name)
     {
         if (string.IsNullOrEmpty(name))
             throw new NotFoundException("The value doesn't exist");
-        Genre? genre = Genres?.Find(g => g.Name == name);
-        if (genre is not null)
+        if (Genres?.Find(g => g.Name == name) is not null)
             throw new AlreadyExistException("The Value already exists");
+        Genre genre = new(name);
         Genres?.Add(genre);
     }
 
@@ -48,12 +48,12 @@ internal class GenreService : IGenreService
 
     public void Update(int id, string? name)
     {
-        if (Genres?.Find(g => g.Id == id) is null)
+        Genre? genre = Genres?.Find(g => g.Id == id);
+        if (genre is null)
             throw new NotFoundException("The value doesn't exist");
         if (string.IsNullOrEmpty(name))
             throw new NullorEmptyException("The value is null or empty");
-        Genre? genre = Genres?.Find(g => g.Name == name);
-        if (genre is not null)
+        if (Genres?.Find(g => g.Name == name) is not null)
             throw new AlreadyExistException($"The object which involving the {name} is already exist");
         genre.Name = name;
     }
