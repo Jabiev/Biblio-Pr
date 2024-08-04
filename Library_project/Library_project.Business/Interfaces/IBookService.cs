@@ -9,5 +9,8 @@ public interface IBookService
     void Delete(Guid id);
     List<Book> GetAll();
     Book GetById(Guid id);
+    List<Book> GetByAuthor(int id);
+    List<Book> GetByGenre(int id);
+    public List<Book> GetByRenter(Guid id);
     List<Book> SearchByName(string? search);
 }

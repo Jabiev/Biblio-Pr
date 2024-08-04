@@ -9,11 +9,13 @@ public class BookService : IBookService
 {
     private AuthorService _authorService;
     private GenreService _genreService;
+    private RenterService _renterService;
 
-    public BookService(AuthorService authorService, GenreService genreService)
+    public BookService(AuthorService authorService, GenreService genreService, RenterService renterService)
     {
         _authorService = authorService;
         _genreService = genreService;
+        _renterService = renterService;
     }
 
     public void Create(string? name, DateTime publishTime, int count, HashSet<int> authorIds, HashSet<int> genreIds)
@@ -43,12 +45,30 @@ public class BookService : IBookService
         return Books;
     }
 
+    public List<Book> GetByAuthor(int id)
+    {
+        Author author = _authorService.GetById(id);
+        return Books.FindAll(b => b.AuthorIds.Contains(author.Id));
+    }
+
+    public List<Book> GetByGenre(int id)
+    {
+        Genre genre = _genreService.GetById(id);
+        return Books.FindAll(b => b.GenreIds.Contains(genre.Id));
+    }
+
     public Book GetById(Guid id)
     {
         Book? book = Books?.Find(b => b.Id == id);
         if (book is null)
             throw new NotFoundException("The value doesn't exist");
         return book;
+    }
+
+    public List<Book> GetByRenter(Guid id)
+    {
+        Renter renter = _renterService.GetById(id);
+        return Books.FindAll(b => b.RenterIds.Contains(renter.Id));
     }
 
     public List<Book> SearchByName(string? search)

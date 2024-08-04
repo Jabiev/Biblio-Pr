@@ -17,12 +17,13 @@ public class GenreService : IGenreService
         Genres?.Add(genre);
     }
 
-    public void Delete(int id)
+    public void Delete(int id, BookService bookService)
     {
         Genre? genre = Genres?.Find(g => g.Id == id);
         if (genre is null)
             throw new NotFoundException("The value doesn't exist");
-        //Check Books that depending on Author(s)
+        if (bookService.GetByGenre(id) is not null)
+            throw new NotRemovedbyContainSomeItemsException("Not removed the value by depending on some other values");
         Genres?.Remove(genre);
     }
 

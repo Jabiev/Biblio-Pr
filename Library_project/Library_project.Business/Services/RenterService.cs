@@ -5,58 +5,61 @@ using static Library_project.DataAccess.Repositories.DataContext;
 
 namespace Library_project.Business.Services;
 
-public class AuthorService : IAuthorService
+public class RenterService : IRenterService
 {
     public void Create(string? name, string? surname)
     {
         if (string.IsNullOrEmpty(name))
             throw new NotFoundException("The value doesn't exist");
-        if (Authors?.Find(a => a.Name == name) is not null)
+        if (Renters?.Find(r => r.Name == name) is not null)
             throw new AlreadyExistException("The Value already exists");
-        Author author = new(name, surname);
-        Authors?.Add(author);
+        Renter renter = new(name, surname);
+        Renters?.Add(renter);
     }
 
-    public void Delete(int id, BookService bookService)
+    public void Delete(Guid id, BookService bookService)
     {
-        Author? author = Authors?.Find(a => a.Id == id);
-        if (author is null)
+        Renter? renter = Renters?.Find(r => r.Id == id);
+        if (renter is null)
             throw new NotFoundException("The value doesn't exist");
-        if (bookService.GetByAuthor(id) is not null)
+        if (bookService.GetByRenter(id) is not null)
             throw new NotRemovedbyContainSomeItemsException("Not removed the value by depending on some other values");
-        Authors?.Remove(author);
+        Renters?.Remove(renter);
     }
 
-    public List<Author> GetAll()
+    public List<Renter> GetAll()
     {
-        return Authors;
+        return Renters;
     }
 
-    public Author GetById(int id)
+    public Renter GetById(Guid id)
     {
-        Author? author = Authors?.Find(a => a.Id == id);
-        if (author is null)
+        Renter? renter = Renters?.Find(r => r.Id == id);
+        if (renter is null)
             throw new NotFoundException("The value doesn't exist");
-        return author;
+        return renter;
     }
 
-    public List<Author> SearchByName(string? search)
+    public List<Renter> SearchByBook(string? search)
     {
         if (string.IsNullOrEmpty(search))
             throw new NullorEmptyException("The value is null or empty");
-        return Authors.FindAll(a => a.Name.Contains(search));
+        Book? book = Books?.Find(b => b.Name.Contains(search));
+        if (book is null)
+            throw new NotFoundException("The object(ex: Book) doesn't exist");
+        return Renters;//Due ; Must Fixing
     }
 
-    public void Update(int id, string? name, string? surname)
+    public void Update(Guid id, string? name, string? surname)
     {
-        Author? author = Authors?.Find(a => a.Id == id);
-        if (author is null)
+        Renter? renter = Renters?.Find(r => r.Id == id);
+        if (renter is null)
             throw new NotFoundException("The value doesn't exist");
         if (string.IsNullOrEmpty(name))
             throw new NullorEmptyException("The value is null or empty");
-        if (Authors?.Find(a => a.Name == name) is not null)
+        if (Renters?.Find(r => r.Name == name) is not null)
             throw new AlreadyExistException($"The object which involving the {name} is already exist");
-        author.Name = name;
-        author.Surname = surname;
+        renter.Name = name;
+        renter.Surname = surname;
     }
 }
