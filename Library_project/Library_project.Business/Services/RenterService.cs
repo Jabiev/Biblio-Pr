@@ -17,12 +17,12 @@ public class RenterService : IRenterService
         Renters?.Add(renter);
     }
 
-    public void Delete(Guid id, BookService bookService)
+    public void Delete(Guid id, LoanService loanService)
     {
         Renter? renter = Renters?.Find(r => r.Id == id);
         if (renter is null)
             throw new NotFoundException("The value doesn't exist");
-        if (bookService.GetByRenter(id) is not null)
+        if (loanService.GetByRenter(id) is not null)
             throw new NotRemovedbyContainSomeItemsException("Not removed the value by depending on some other values");
         Renters?.Remove(renter);
     }
@@ -47,7 +47,19 @@ public class RenterService : IRenterService
         Book? book = Books?.Find(b => b.Name.Contains(search));
         if (book is null)
             throw new NotFoundException("The object(ex: Book) doesn't exist");
-        return Renters;//Due ; Must Fixing
+        Loan loan = Loans.Find(l => l.Book == book);
+        if (loan is null)
+            throw new NotFoundException("The object isn't found");
+        if (loan.RenterIds is null)
+            throw new NotFoundException("The object isn't found");
+        List<Renter> renters = new List<Renter>();
+        foreach (var id in loan.RenterIds)
+        {
+            Renter? renter = Renters.Find(r => r.Id == id);
+            if (renter is not null)
+                renters.Add(renter);
+        }
+        return renters;
     }
 
     public void Update(Guid id, string? name, string? surname)

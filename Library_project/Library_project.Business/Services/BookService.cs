@@ -65,12 +65,6 @@ public class BookService : IBookService
         return book;
     }
 
-    public List<Book> GetByRenter(Guid id)
-    {
-        Renter renter = _renterService.GetById(id);
-        return Books.FindAll(b => b.RenterIds.Contains(renter.Id));
-    }
-
     public List<Book> SearchByName(string? search)
     {
         if (string.IsNullOrEmpty(search))

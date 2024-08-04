@@ -6,18 +6,22 @@ public class Loan : IEntity<int>
 {
     public int Id { get; set; }
     private static int _id;
-    public Guid BookId { get; set; }
-    public Guid RenterId { get; set; }
+    public Book Book { get; set; }
+    public Renter Renter { get; set; }
+    public HashSet<Guid>? BookIds;
+    public HashSet<Guid>? RenterIds;
     public DateTime LoanDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? ReturnDate { get; set; }
-    public Loan(Guid bookId, Guid renterId, DateTime loanDate, DateTime dueDate, DateTime? returnDate)
+    public Loan(Book book, Renter renter, DateTime loanDate, DateTime dueDate)
     {
         Id = _id++;
-        BookId = bookId;
-        RenterId = renterId;
+        Book = book;
+        Renter = renter;
         LoanDate = loanDate;
         DueDate = dueDate;
-        ReturnDate = returnDate;
+        ReturnDate = new DateTime();
+        BookIds = new HashSet<Guid>();
+        RenterIds = new HashSet<Guid>();
     }
 }
