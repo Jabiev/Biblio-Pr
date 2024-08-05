@@ -11,7 +11,7 @@ public class AuthorService : IAuthorService
     {
         if (string.IsNullOrEmpty(name))
             throw new NotFoundException("The value is null or empty");
-        if (Authors?.Find(a => a.Name == name) is not null && Authors?.Find(a => a.Surname == surname) is not null)
+        if (Authors?.Find(a => a.Name == name.ToUpper()) is not null && Authors?.Find(a => a.Surname == surname) is not null)
             throw new AlreadyExistException("The Value already exists");
         Author author = new(name.ToUpper(), surname);
         Authors?.Add(author);

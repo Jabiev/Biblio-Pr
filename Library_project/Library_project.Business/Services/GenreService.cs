@@ -11,7 +11,7 @@ public class GenreService : IGenreService
     {
         if (string.IsNullOrEmpty(name))
             throw new NotFoundException("The value is null or empty");
-        if (Genres?.Find(g => g.Name == name) is not null)
+        if (Genres?.Find(g => g.Name == name.ToUpper()) is not null)
             throw new AlreadyExistException("The Value already exists");
         Genre genre = new(name.ToUpper());
         Genres?.Add(genre);
