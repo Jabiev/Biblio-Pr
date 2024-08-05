@@ -20,13 +20,15 @@ public class BookService : IBookService
     {
         if (string.IsNullOrEmpty(name))
             throw new NullorEmptyException("The value is null or empty");
-        if (count < 0)
+        if (Books?.Find(b => b.Name == name) is not null)
+            throw new AlreadyExistException("The Value already exists");
+        if (count <= 0)
             throw new InvalidDataException("Invalid operation");
         foreach (var id in authorIds)
             _authorService.GetById(id);
         foreach (var id in genreIds)
             _genreService.GetById(id);
-        Book book = new(name, publishTime, count, authorIds, genreIds);
+        Book book = new(name.ToUpper(), publishTime, count, authorIds, genreIds);
         Books?.Add(book);
     }
 
@@ -43,6 +45,18 @@ public class BookService : IBookService
         return Books;
     }
 
+    public List<Book> GetByAuthor(int id)
+    {
+        Author author = _authorService.GetById(id);
+        return Books.FindAll(b => b.AuthorIds.Contains(author.Id));
+    }
+
+    public List<Book> GetByGenre(int id)
+    {
+        Genre genre = _genreService.GetById(id);
+        return Books.FindAll(b => b.GenreIds.Contains(genre.Id));
+    }
+
     public Book GetById(Guid id)
     {
         Book? book = Books?.Find(b => b.Id == id);
@@ -55,7 +69,7 @@ public class BookService : IBookService
     {
         if (string.IsNullOrEmpty(search))
             throw new NullorEmptyException("The value is null or empty");
-        return Books.FindAll(b => b.Name.Contains(search));
+        return Books.FindAll(b => b.Name.Contains(search.ToUpper()));
     }
 
     public void Update(Guid id, string? newName, DateTime newPublishTime, int newCount, HashSet<int> newAuthorIds, HashSet<int> newGenreIds)

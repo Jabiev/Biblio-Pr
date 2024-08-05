@@ -2,15 +2,18 @@
 
 namespace Library_project.Core.Entities;
 
-public class Author : IEntity<int>
+public class Renter : IEntity<Guid>
 {
-    public int Id { get; set; }
-    private static int _id;
+    /// <summary>
+    /// Identification
+    /// </summary>
+    public Guid Id { get; set; }
     public string? Name { get; set; } = null!;
     public string? Surname { get; set; }
-    public Author(string? name, string? surname)
+
+    public Renter(string? name, string? surname)
     {
-        Id = _id++;
+        Id = Guid.NewGuid();
         Name = name;
         Surname = surname;
     }

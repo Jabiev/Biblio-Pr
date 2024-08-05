@@ -10,19 +10,20 @@ public class GenreService : IGenreService
     public void Create(string? name)
     {
         if (string.IsNullOrEmpty(name))
-            throw new NotFoundException("The value doesn't exist");
+            throw new NotFoundException("The value is null or empty");
         if (Genres?.Find(g => g.Name == name) is not null)
             throw new AlreadyExistException("The Value already exists");
-        Genre genre = new(name);
+        Genre genre = new(name.ToUpper());
         Genres?.Add(genre);
     }
 
-    public void Delete(int id)
+    public void Delete(int id, BookService bookService)
     {
         Genre? genre = Genres?.Find(g => g.Id == id);
         if (genre is null)
             throw new NotFoundException("The value doesn't exist");
-        //Check Books that depending on Author(s)
+        if (bookService.GetByGenre(id).Count > 0)
+            throw new NotRemovedbyContainSomeItemsException("Not removed the value by depending on some other values");
         Genres?.Remove(genre);
     }
 
@@ -43,7 +44,7 @@ public class GenreService : IGenreService
     {
         if (string.IsNullOrEmpty(search))
             throw new NullorEmptyException("The value is null or empty");
-        return Genres.FindAll(g => g.Name.Contains(search));
+        return Genres.FindAll(g => g.Name.Contains(search.ToUpper()));
     }
 
     public void Update(int id, string? name)
