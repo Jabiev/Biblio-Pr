@@ -10,8 +10,8 @@ public class RenterService : IRenterService
     public void Create(string? name, string? surname)
     {
         if (string.IsNullOrEmpty(name))
-            throw new NotFoundException("The value doesn't exist");
-        if (Renters?.Find(r => r.Name == name) is not null)
+            throw new NotFoundException("The value is null or empty");
+        if (Renters?.Find(r => r.Name == name) is not null && Renters?.Find(r => r.Surname == surname) is not null)
             throw new AlreadyExistException("The Value already exists");
         Renter renter = new(name, surname);
         Renters?.Add(renter);
@@ -22,7 +22,7 @@ public class RenterService : IRenterService
         Renter? renter = Renters?.Find(r => r.Id == id);
         if (renter is null)
             throw new NotFoundException("The value doesn't exist");
-        if (loanService.GetByRenter(id) is not null)
+        if (loanService.GetByRenter(id).Count > 0)
             throw new NotRemovedbyContainSomeItemsException("Not removed the value by depending on some other values");
         Renters?.Remove(renter);
     }

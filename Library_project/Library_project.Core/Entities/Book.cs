@@ -19,4 +19,8 @@ public class Book : IEntity<Guid>
         PublishTime = publishTime;
         Count = count;
     }
+    public override string ToString()
+    {
+        return $"Id {Id} | Name {Name} | AuthorId(s) {string.Join(",", AuthorIds)} | GenreIds {string.Join(",", GenreIds)} | PublishTime {PublishTime} | Count {Count}";
+    }
 }

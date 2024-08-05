@@ -14,4 +14,8 @@ public class Author : IEntity<int>
         Name = name;
         Surname = surname;
     }
+    public override string ToString()
+    {
+        return $"Id {Id} | Name {Name} | Surname {Surname}";
+    }
 }

@@ -9,26 +9,26 @@ public class BookService : IBookService
 {
     private AuthorService _authorService;
     private GenreService _genreService;
-    private RenterService _renterService;
 
-    public BookService(AuthorService authorService, GenreService genreService, RenterService renterService)
+    public BookService(AuthorService authorService, GenreService genreService)
     {
         _authorService = authorService;
         _genreService = genreService;
-        _renterService = renterService;
     }
 
     public void Create(string? name, DateTime publishTime, int count, HashSet<int> authorIds, HashSet<int> genreIds)
     {
         if (string.IsNullOrEmpty(name))
             throw new NullorEmptyException("The value is null or empty");
-        if (count < 0)
+        if (Books?.Find(b => b.Name == name) is not null)
+            throw new AlreadyExistException("The Value already exists");
+        if (count <= 0)
             throw new InvalidDataException("Invalid operation");
         foreach (var id in authorIds)
             _authorService.GetById(id);
         foreach (var id in genreIds)
             _genreService.GetById(id);
-        Book book = new(name, publishTime, count, authorIds, genreIds);
+        Book book = new(name.ToUpper(), publishTime, count, authorIds, genreIds);
         Books?.Add(book);
     }
 
@@ -69,7 +69,7 @@ public class BookService : IBookService
     {
         if (string.IsNullOrEmpty(search))
             throw new NullorEmptyException("The value is null or empty");
-        return Books.FindAll(b => b.Name.Contains(search));
+        return Books.FindAll(b => b.Name.Contains(search.ToUpper()));
     }
 
     public void Update(Guid id, string? newName, DateTime newPublishTime, int newCount, HashSet<int> newAuthorIds, HashSet<int> newGenreIds)

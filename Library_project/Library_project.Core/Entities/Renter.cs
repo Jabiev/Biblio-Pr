@@ -17,4 +17,8 @@ public class Renter : IEntity<Guid>
         Name = name;
         Surname = surname;
     }
+    public override string ToString()
+    {
+        return $"Id {Id} | Name {Name} | Surname {Surname}";
+    }
 }

@@ -45,6 +45,8 @@ public class LoanService : ILoanService
         loan.BookIds.Remove(bookId);
         loan.RenterIds.Remove(renterId);
         Loans.Remove(loan);
+        if (loan.ReturnDate > loan.DueDate)
+            throw new PastdueValueException("The value is anymore past-due");
     }
     public List<Loan> GetOverdueLoans(DateTime today)
     {
@@ -70,5 +72,10 @@ public class LoanService : ILoanService
                 books.Add(book);
         }
         return books;
+    }
+
+    public List<Loan> GetAll()
+    {
+        return Loans;
     }
 }

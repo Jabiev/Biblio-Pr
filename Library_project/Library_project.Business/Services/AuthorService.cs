@@ -10,10 +10,10 @@ public class AuthorService : IAuthorService
     public void Create(string? name, string? surname)
     {
         if (string.IsNullOrEmpty(name))
-            throw new NotFoundException("The value doesn't exist");
-        if (Authors?.Find(a => a.Name == name) is not null)
+            throw new NotFoundException("The value is null or empty");
+        if (Authors?.Find(a => a.Name == name) is not null && Authors?.Find(a => a.Surname == surname) is not null)
             throw new AlreadyExistException("The Value already exists");
-        Author author = new(name, surname);
+        Author author = new(name.ToUpper(), surname);
         Authors?.Add(author);
     }
 
@@ -22,7 +22,7 @@ public class AuthorService : IAuthorService
         Author? author = Authors?.Find(a => a.Id == id);
         if (author is null)
             throw new NotFoundException("The value doesn't exist");
-        if (bookService.GetByAuthor(id) is not null)
+        if (bookService.GetByAuthor(id).Count > 0)
             throw new NotRemovedbyContainSomeItemsException("Not removed the value by depending on some other values");
         Authors?.Remove(author);
     }
@@ -44,19 +44,19 @@ public class AuthorService : IAuthorService
     {
         if (string.IsNullOrEmpty(search))
             throw new NullorEmptyException("The value is null or empty");
-        return Authors.FindAll(a => a.Name.Contains(search));
+        return Authors.FindAll(a => a.Name.Contains(search.ToUpper()));
     }
 
-    public void Update(int id, string? name, string? surname)
+    public void Update(int id, string? newName, string? newSurname)
     {
         Author? author = Authors?.Find(a => a.Id == id);
         if (author is null)
             throw new NotFoundException("The value doesn't exist");
-        if (string.IsNullOrEmpty(name))
+        if (string.IsNullOrEmpty(newName))
             throw new NullorEmptyException("The value is null or empty");
-        if (Authors?.Find(a => a.Name == name) is not null)
-            throw new AlreadyExistException($"The object which involving the {name} is already exist");
-        author.Name = name;
-        author.Surname = surname;
+        if (Authors?.Find(a => a.Name == newName) is not null)
+            throw new AlreadyExistException($"The object which involving the {newName} is already exist");
+        author.Name = newName;
+        author.Surname = newSurname;
     }
 }

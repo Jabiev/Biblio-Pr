@@ -24,4 +24,8 @@ public class Loan : IEntity<int>
         BookIds = new HashSet<Guid>();
         RenterIds = new HashSet<Guid>();
     }
+    public override string ToString()
+    {
+        return $"Id {Id} | Book {Book} | Renter {Renter} | BookIds {string.Join(",", BookIds)} | RenterIds {string.Join(",", RenterIds)} | LoanDate {LoanDate} | DueDate {DueDate} | ReturnDate {ReturnDate}";
+    }
 }
