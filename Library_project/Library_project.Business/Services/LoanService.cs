@@ -16,7 +16,7 @@ public class LoanService : ILoanService
         _renterService = renterService;
     }
 
-    public void LoanBook(Guid bookId, Guid renterId, DateTime loanDate, double loanPeriod)
+    public void LoanBook(Guid bookId, int renterId, DateTime loanDate, double loanPeriod)
     {
         Book book = _bookService.GetById(bookId);
         Renter renter = _renterService.GetById(renterId);
@@ -33,7 +33,7 @@ public class LoanService : ILoanService
         Loans.Add(loan);
     }
 
-    public void ReturnBook(Guid bookId, Guid renterId, DateTime returnDate)
+    public void ReturnBook(Guid bookId, int renterId, DateTime returnDate)
     {
         Loan loan = Loans.Find(l => l.Book.Id == bookId && l.Renter.Id == renterId);
         if (loan is null)
@@ -55,7 +55,7 @@ public class LoanService : ILoanService
         return Loans.FindAll(l => l.DueDate <= today);
     }
 
-    public List<Book> GetByRenter(Guid renterId)
+    public List<Book> GetByRenter(int renterId)
     {
         if (_renterService.GetById(renterId) is null)
             throw new NotFoundException("The object isn't found");

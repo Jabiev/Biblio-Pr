@@ -17,7 +17,7 @@ public class RenterService : IRenterService
         Renters?.Add(renter);
     }
 
-    public void Delete(Guid id, LoanService loanService)
+    public void Delete(int id, LoanService loanService)
     {
         Renter? renter = Renters?.Find(r => r.Id == id);
         if (renter is null)
@@ -32,7 +32,7 @@ public class RenterService : IRenterService
         return Renters;
     }
 
-    public Renter GetById(Guid id)
+    public Renter GetById(int id)
     {
         Renter? renter = Renters?.Find(r => r.Id == id);
         if (renter is null)
@@ -62,7 +62,7 @@ public class RenterService : IRenterService
         return renters;
     }
 
-    public void Update(Guid id, string? name, string? surname)
+    public void Update(int id, string? name, string? surname)
     {
         Renter? renter = Renters?.Find(r => r.Id == id);
         if (renter is null)

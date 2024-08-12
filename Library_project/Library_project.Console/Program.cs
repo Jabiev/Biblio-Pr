@@ -64,6 +64,8 @@ while (check)
             {
                 Console.Write("Please Enter Name of Book : ");
                 string name = Console.ReadLine();
+                if (name == "-5")
+                    goto case -5;
                 Console.Write("& Publish Time(YEAR/MONTH/DAY): ");
                 DateTime pT = DateTime.Parse(Console.ReadLine());
                 Console.Write("& Count : ");
@@ -92,6 +94,8 @@ while (check)
             {
                 Console.Write("Please Enter Author's Name : ");
                 string aName = Console.ReadLine();
+                if (aName == "-5")
+                    goto case -5;
                 Console.Write("Please Enter Author's Surname : ");
                 string surName = Console.ReadLine();
                 authorService.Create(aName, surName);
@@ -112,6 +116,8 @@ while (check)
             {
                 Console.Write("Please Enter Name of Genre : ");
                 string gName = Console.ReadLine();
+                if (gName == "-5")
+                    goto case -5;
                 genreService.Create(gName);
             }
             catch (Exception ex)
@@ -144,7 +150,9 @@ while (check)
             {
                 Console.WriteLine("\t" + string.Join("\n\t", renterService.GetAll()));
                 Console.Write("Please Copy and Paste Renter Id: ");
-                Guid guid = Guid.Parse(Console.ReadLine());
+                int guid = int.Parse(Console.ReadLine());
+                if (guid == -5)
+                    goto case -5;
                 Console.WriteLine("\t" + string.Join("\n\t", bookService.GetAll()));
                 Console.Write("Please Copy and Paste Book Id: ");
                 Guid bGuid = Guid.Parse(Console.ReadLine());
@@ -179,6 +187,8 @@ while (check)
             {
                 Console.WriteLine("\t" + string.Join("\n\t", bookService.GetAll()));
                 Console.Write("Please Copy and Paste Book Id: ");
+                if (Console.ReadLine() == "-5")
+                    goto case -5;
                 Guid eid = Guid.Parse(Console.ReadLine());
                 Console.Write("Please Enter new Name of Book : ");
                 string nname = Console.ReadLine();
@@ -218,6 +228,8 @@ while (check)
                 Console.WriteLine("\t" + string.Join("\n\t", authorService.GetAll()));
                 Console.Write("Please Enter the Author Id you would like to change: ");
                 int i_d = int.Parse(Console.ReadLine());
+                if (i_d == -5)
+                    goto case -5;
                 Console.Write("Please Enter new Author's Name : ");
                 string n_name = Console.ReadLine();
                 Console.Write("Please Enter new Author's Surname : ");
@@ -248,6 +260,8 @@ while (check)
                 Console.WriteLine("\t" + string.Join("\n\t", genreService.GetAll()));
                 Console.Write("Please Enter the Genre Id you would like to change: ");
                 int id_g = int.Parse(Console.ReadLine());
+                if (id_g == -5)
+                    goto case -5;
                 Console.Write("Please Enter new Name of Genre : ");
                 string n_nameg = Console.ReadLine();
                 genreService.Update(id_g, n_nameg);
@@ -283,7 +297,9 @@ while (check)
             {
                 Console.WriteLine("\t" + string.Join("\n\t", renterService.GetAll()));
                 Console.Write("Please Copy and Paste Renter Id: ");
-                Guid gui_d = Guid.Parse(Console.ReadLine());
+                int gui_d = int.Parse(Console.ReadLine());
+                if (gui_d == -5)
+                    goto case -5;
                 Console.WriteLine("\t" + string.Join("\n\t", bookService.GetAll()));
                 Console.Write("Please Copy and Paste Book Id: ");
                 Guid bG_uid = Guid.Parse(Console.ReadLine());
@@ -322,6 +338,8 @@ while (check)
             {
                 Console.WriteLine("\t" + string.Join("\n\t", bookService.GetAll()));
                 Console.Write("Please Copy and Paste Book Id: ");
+                if (Console.ReadLine() == "-5")
+                    goto case -5;
                 Guid ibd = Guid.Parse(Console.ReadLine());
                 bookService.Delete(ibd);
             }
@@ -349,6 +367,8 @@ while (check)
                 Console.WriteLine("\t" + string.Join("\n\t", authorService.GetAll()));
                 Console.Write("Please Copy and Paste the Author Id you would like to delete : ");
                 int auid = int.Parse(Console.ReadLine());
+                if (auid == -5)
+                    goto case -5;
                 authorService.Delete(auid, bookService);
             }
             catch (Exception ex)
@@ -375,6 +395,8 @@ while (check)
                 Console.WriteLine("\t" + string.Join("\n\t", genreService.GetAll()));
                 Console.Write("Please Copy and Paste the Genre Id you would like to delete : ");
                 int gnid = int.Parse(Console.ReadLine());
+                if (gnid == -5)
+                    goto case -5;
                 genreService.Delete(gnid, bookService);
             }
             catch (Exception ex)
@@ -399,6 +421,8 @@ while (check)
             try
             {
                 Console.WriteLine("\t" + string.Join("\n\t", bookService.GetAll()));
+                if (Console.ReadLine() == "-5")
+                    goto case -5;
             }
             catch (Exception ex)
             {
@@ -422,6 +446,8 @@ while (check)
             try
             {
                 Console.WriteLine("\t" + string.Join("\n\t", authorService.GetAll()));
+                if (Console.ReadLine() == "-5")
+                    goto case -5;
             }
             catch (Exception ex)
             {
@@ -445,6 +471,8 @@ while (check)
             try
             {
                 Console.WriteLine("\t" + string.Join("\n\t", genreService.GetAll()));
+                if (Console.ReadLine() == "-5")
+                    goto case -5;
             }
             catch (Exception ex)
             {
@@ -468,7 +496,10 @@ while (check)
             try
             {
                 Console.WriteLine("Please Enter Your Serching Day(YEAR/MONTH/DAY) or other : ");
-                DateTime lg_D = DateTime.Parse(Console.ReadLine());
+                string input = Console.ReadLine();
+                if (input == "-5")
+                    goto case -5;
+                DateTime lg_D = DateTime.Parse(input);
                 Console.WriteLine("\t" + string.Join("\n\t", loanService.GetOverdueLoans(lg_D)));
             }
             catch (Exception ex)
@@ -493,6 +524,8 @@ while (check)
             try
             {
                 Console.WriteLine("\t" + string.Join("\n\t", loanService.GetAll()));
+                if (Console.ReadLine() == "-5")
+                    goto case -5;
             }
             catch (Exception ex)
             {
@@ -516,7 +549,10 @@ while (check)
             try
             {
                 Console.WriteLine("Please Enter any clue of name");
-                var list = authorService.SearchByName(Console.ReadLine());
+                string s = Console.ReadLine();
+                if (s == "-5")
+                    goto case -5;
+                var list = authorService.SearchByName(s);
                 Console.ForegroundColor = ConsoleColor.Green;
                 if (list.Count == 0)
                     Console.WriteLine("\nThe list doesn't exist by the search value");
@@ -545,7 +581,10 @@ while (check)
             try
             {
                 Console.WriteLine("Please Enter any clue of name");
-                var glist = genreService.SearchByName(Console.ReadLine());
+                string ss = Console.ReadLine();
+                if (ss == "-5")
+                    goto case -5;
+                var glist = genreService.SearchByName(ss);
                 Console.ForegroundColor = ConsoleColor.Green;
                 if (glist.Count == 0)
                     Console.WriteLine("\nThe list doesn't exist by the search value");
@@ -574,7 +613,10 @@ while (check)
             try
             {
                 Console.WriteLine("Please Enter any clue of name");
-                var blist = bookService.SearchByName(Console.ReadLine());
+                string sb = Console.ReadLine();
+                if (sb == "-5")
+                    goto case -5;
+                var blist = bookService.SearchByName(sb);
                 Console.ForegroundColor = ConsoleColor.Green;
                 if (blist.Count == 0)
                     Console.WriteLine("\nThe list doesn't exist by the search value");
@@ -597,6 +639,8 @@ while (check)
             {
                 Console.Write("Please Enter Renter's Name : ");
                 string rName = Console.ReadLine();
+                if (rName == "-5")
+                    goto case -5;
                 Console.Write("Please Enter Renter's Surname : ");
                 string rSurname = Console.ReadLine();
                 renterService.Create(rName, rSurname);

@@ -9,7 +9,7 @@ public class Loan : IEntity<int>
     public Book Book { get; set; }
     public Renter Renter { get; set; }
     public HashSet<Guid>? BookIds;
-    public HashSet<Guid>? RenterIds;
+    public HashSet<int>? RenterIds;
     public DateTime LoanDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? ReturnDate { get; set; }
@@ -22,7 +22,7 @@ public class Loan : IEntity<int>
         DueDate = dueDate;
         ReturnDate = new DateTime();
         BookIds = new HashSet<Guid>();
-        RenterIds = new HashSet<Guid>();
+        RenterIds = new HashSet<int>();
     }
     public override string ToString()
     {

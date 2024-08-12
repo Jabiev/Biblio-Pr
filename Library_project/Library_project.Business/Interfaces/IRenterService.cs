@@ -7,9 +7,9 @@ namespace Library_project.Business.Interfaces;
 public interface IRenterService
 {
     void Create(string? name, string? surname);
-    void Delete(Guid id, LoanService loanService);
-    void Update(Guid id, string? name, string? surname);
+    void Delete(int id, LoanService loanService);
+    void Update(int id, string? name, string? surname);
     List<Renter> GetAll();
     List<Renter> SearchByBook(string? search);
-    public Renter GetById(Guid id);
+    public Renter GetById(int id);
 }
