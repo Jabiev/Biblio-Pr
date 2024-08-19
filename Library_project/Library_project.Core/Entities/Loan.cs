@@ -26,6 +26,6 @@ public class Loan : IEntity<int>
     }
     public override string ToString()
     {
-        return $"Id {Id} | Book {Book} | Renter {Renter} | BookIds {string.Join(",", BookIds)} | RenterIds {string.Join(",", RenterIds)} | LoanDate {LoanDate} | DueDate {DueDate} | ReturnDate {ReturnDate}";
+        return $"Id {Id} | Book {Book} | Renter {Renter} | LoanDate {LoanDate} | DueDate {DueDate} | ReturnDate {ReturnDate}";
     }
 }

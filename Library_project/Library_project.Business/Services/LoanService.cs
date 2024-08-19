@@ -16,7 +16,7 @@ public class LoanService : ILoanService
         _renterService = renterService;
     }
 
-    public void LoanBook(Guid bookId, int renterId, DateTime loanDate, double loanPeriod)
+    public void LoanBook(Guid bookId, int renterId, double loanPeriod)
     {
         Book book = _bookService.GetById(bookId);
         Renter renter = _renterService.GetById(renterId);
@@ -24,10 +24,10 @@ public class LoanService : ILoanService
             throw new NotFoundException($"The Book or The Renter object isn't found");
         if (book.Count <= 0)
             throw new InvalidOperationException("The book count used up");
-        if (loanDate < DateTime.Now || loanPeriod > 7)
+        if (loanPeriod > 7)
             throw new Exception("Invaild entry or exceedingly period day");
         book.Count--;
-        Loan loan = new(book, renter, loanDate, loanDate.AddDays(loanPeriod));
+        Loan loan = new(book, renter, DateTime.Now, DateTime.Now.AddDays(loanPeriod));
         loan.BookIds.Add(bookId);
         loan.RenterIds.Add(renterId);
         Loans.Add(loan);

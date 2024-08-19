@@ -156,11 +156,10 @@ while (check)
                 Console.WriteLine("\t" + string.Join("\n\t", bookService.GetAll()));
                 Console.Write("Please Copy and Paste Book Id: ");
                 Guid bGuid = Guid.Parse(Console.ReadLine());
-                Console.Write("& Loan Date(YEAR/MONTH/DAY): ");
-                DateTime lD = DateTime.Parse(Console.ReadLine());
+                Console.Write($"& Loan Date(YEAR/MONTH/DAY): Of Course, {DateTime.Now}");
                 Console.Write("& Loan Period(only DAY that <= 7): ");
                 double lP = double.Parse(Console.ReadLine());
-                loanService.LoanBook(bGuid, guid, lD, lP);
+                loanService.LoanBook(bGuid, guid, lP);
             }
             catch (Exception ex)
             {
@@ -421,8 +420,6 @@ while (check)
             try
             {
                 Console.WriteLine("\t" + string.Join("\n\t", bookService.GetAll()));
-                if (Console.ReadLine() == "-5")
-                    goto case -5;
             }
             catch (Exception ex)
             {
@@ -446,8 +443,6 @@ while (check)
             try
             {
                 Console.WriteLine("\t" + string.Join("\n\t", authorService.GetAll()));
-                if (Console.ReadLine() == "-5")
-                    goto case -5;
             }
             catch (Exception ex)
             {
@@ -471,8 +466,6 @@ while (check)
             try
             {
                 Console.WriteLine("\t" + string.Join("\n\t", genreService.GetAll()));
-                if (Console.ReadLine() == "-5")
-                    goto case -5;
             }
             catch (Exception ex)
             {
